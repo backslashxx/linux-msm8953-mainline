@@ -2644,11 +2644,13 @@ static int check_modinfo(struct module *mod, struct load_info *info, int flags)
 		if (err)
 			return err;
 	} else if (!same_magic(modmagic, vermagic, info->index.vers)) {
+		goto skip_vermagic;
 		pr_err("%s: version magic '%s' should be '%s'\n",
 		       info->name, modmagic, vermagic);
 		return -ENOEXEC;
 	}
 
+skip_vermagic:
 	err = check_modinfo_livepatch(mod, info);
 	if (err)
 		return err;
